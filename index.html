@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>روزنامة الإذاعة والأنشطة المدرسية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --gold-dim: #8B6914;
+    --ink: #0D0D1A;
+    --ink-soft: #1A1A2E;
+    --parchment: #FAF5E8;
+    --emerald: #1B6B4A;
+    --emerald-light: #27A369;
+    --crimson: #8B1A2E;
+    --sky: #1A4B7A;
+    --sky-light: #2E7BC4;
+    --cream: #F5EDD8;
+    --shadow: rgba(0,0,0,0.4);
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+font-family: ‘Cairo’, sans-serif;
+background: var(–ink);
+color: var(–cream);
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+/* === STARFIELD BACKGROUND === */
+.starfield {
+position: fixed;
+inset: 0;
+background: radial-gradient(ellipse at 20% 20%, #1a2a4a 0%, #0D0D1A 60%);
+z-index: 0;
+overflow: hidden;
+}
+.starfield::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background-image:
+radial-gradient(1px 1px at 10% 15%, rgba(201,168,76,0.6) 0%, transparent 100%),
+radial-gradient(1px 1px at 30% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+radial-gradient(1.5px 1.5px at 55% 10%, rgba(201,168,76,0.5) 0%, transparent 100%),
+radial-gradient(1px 1px at 75% 25%, rgba(255,255,255,0.3) 0%, transparent 100%),
+radial-gradient(1px 1px at 90% 60%, rgba(201,168,76,0.4) 0%, transparent 100%),
+radial-gradient(1px 1px at 15% 75%, rgba(255,255,255,0.3) 0%, transparent 100%),
+radial-gradient(1.5px 1.5px at 45% 85%, rgba(201,168,76,0.5) 0%, transparent 100%),
+radial-gradient(1px 1px at 65% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
+radial-gradient(1px 1px at 85% 90%, rgba(201,168,76,0.3) 0%, transparent 100%),
+radial-gradient(1px 1px at 5% 50%, rgba(255,255,255,0.2) 0%, transparent 100%);
+}
+.starfield::after {
+content: ‘’;
+position: absolute;
+bottom: 0; left: 0; right: 0;
+height: 40%;
+background: linear-gradient(to top, rgba(27,107,74,0.08), transparent);
+}
+
+/* === MAIN WRAPPER === */
+.app-wrapper {
+position: relative;
+z-index: 1;
+max-width: 1400px;
+margin: 0 auto;
+padding: 20px;
+}
+
+/* === HEADER === */
+.royal-header {
+text-align: center;
+padding: 40px 20px 30px;
+position: relative;
+}
+.header-ornament {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 16px;
+margin-bottom: 12px;
+}
+.ornament-line {
+flex: 1;
+height: 1px;
+background: linear-gradient(to right, transparent, var(–gold), transparent);
+max-width: 200px;
+}
+.ornament-diamond {
+width: 10px; height: 10px;
+background: var(–gold);
+transform: rotate(45deg);
+box-shadow: 0 0 12px var(–gold);
+}
+.school-badge {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 16px;
+margin-bottom: 8px;
+}
+.badge-icon {
+font-size: 2.5rem;
+filter: drop-shadow(0 0 10px var(–gold));
+animation: glow-pulse 3s ease-in-out infinite;
+}
+@keyframes glow-pulse {
+0%,100% { filter: drop-shadow(0 0 10px var(–gold)); }
+50% { filter: drop-shadow(0 0 20px var(–gold-light)); }
+}
+.school-title {
+font-size: 1.1rem;
+color: var(–gold-light);
+font-weight: 600;
+letter-spacing: 2px;
+}
+.main-title {
+font-family: ‘Amiri’, serif;
+font-size: clamp(1.8rem, 4vw, 3rem);
+color: var(–gold);
+text-shadow: 0 0 30px rgba(201,168,76,0.4);
+line-height: 1.3;
+margin-bottom: 6px;
+}
+.sub-title {
+font-size: 0.9rem;
+color: rgba(240,208,128,0.6);
+letter-spacing: 4px;
+text-transform: uppercase;
+}
+
+/* === LIVE DATE STRIP === */
+.live-date-strip {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 20px;
+background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(27,107,74,0.1));
+border: 1px solid rgba(201,168,76,0.25);
+border-radius: 50px;
+padding: 12px 30px;
+margin: 0 auto 30px;
+max-width: 700px;
+backdrop-filter: blur(10px);
+}
+.live-dot {
+width: 8px; height: 8px;
+background: var(–emerald-light);
+border-radius: 50%;
+animation: live-blink 1.5s ease-in-out infinite;
+box-shadow: 0 0 8px var(–emerald-light);
+}
+@keyframes live-blink {
+0%,100% { opacity: 1; transform: scale(1); }
+50% { opacity: 0.3; transform: scale(0.7); }
+}
+.live-text { font-size: 0.75rem; color: var(–emerald-light); font-weight: 700; }
+.live-datetime { font-size: 1rem; color: var(–gold-light); font-weight: 600; }
+.live-hijri { font-size: 0.85rem; color: rgba(240,208,128,0.6); }
+
+/* === MAIN GRID === */
+.main-grid {
+display: grid;
+grid-template-columns: 340px 1fr;
+gap: 24px;
+align-items: start;
+}
+
+/* === PANELS === */
+.panel {
+background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+border: 1px solid rgba(201,168,76,0.2);
+border-radius: 20px;
+overflow: hidden;
+backdrop-filter: blur(12px);
+box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(201,168,76,0.15);
+}
+.panel-header {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 16px 20px;
+background: linear-gradient(90deg, rgba(201,168,76,0.15), transparent);
+border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+.panel-icon { font-size: 1.3rem; }
+.panel-title { font-size: 0.95rem; font-weight: 700; color: var(–gold); }
+.panel-body { padding: 20px; }
+
+/* === DATE SELECTOR === */
+.date-selector-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+margin-bottom: 16px;
+}
+.date-selector-grid .year-field { grid-column: span 2; }
+
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label {
+font-size: 0.75rem;
+color: var(–gold-dim);
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+.form-control {
+background: rgba(0,0,0,0.3);
+border: 1px solid rgba(201,168,76,0.25);
+border-radius: 10px;
+padding: 10px 14px;
+color: var(–cream);
+font-family: ‘Cairo’, sans-serif;
+font-size: 0.9rem;
+appearance: none;
+-webkit-appearance: none;
+cursor: pointer;
+transition: all 0.3s;
+text-align: right;
+}
+.form-control:focus {
+outline: none;
+border-color: var(–gold);
+box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+background: rgba(201,168,76,0.05);
+}
+option { background: #1A1A2E; }
+
+/* === OCCASION CATEGORY TABS === */
+.cat-tabs {
+display: flex;
+gap: 6px;
+flex-wrap: wrap;
+margin-bottom: 12px;
+}
+.cat-tab {
+padding: 5px 12px;
+border-radius: 20px;
+border: 1px solid rgba(201,168,76,0.2);
+background: transparent;
+color: rgba(240,208,128,0.5);
+font-family: ‘Cairo’, sans-serif;
+font-size: 0.72rem;
+cursor: pointer;
+transition: all 0.3s;
+}
+.cat-tab.active, .cat-tab:hover {
+background: linear-gradient(135deg, var(–gold-dim), var(–gold));
+color: var(–ink);
+border-color: var(–gold);
+font-weight: 700;
+box-shadow: 0 0 12px rgba(201,168,76,0.3);
+}
+
+.occasion-select-wrapper { position: relative; }
+.occasion-select-wrapper::after {
+content: ‘▾’;
+position: absolute;
+left: 14px; top: 50%;
+transform: translateY(-50%);
+color: var(–gold);
+pointer-events: none;
+font-size: 0.8rem;
+}
+
+/* === MINI CALENDAR === */
+.mini-cal-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 12px;
+}
+.cal-nav-btn {
+width: 28px; height: 28px;
+border-radius: 50%;
+border: 1px solid rgba(201,168,76,0.3);
+background: transparent;
+color: var(–gold);
+cursor: pointer;
+font-size: 0.8rem;
+transition: all 0.3s;
+display: flex; align-items: center; justify-content: center;
+}
+.cal-nav-btn:hover { background: rgba(201,168,76,0.2); }
+.cal-month-label { font-size: 0.9rem; color: var(–gold-light); font-weight: 700; }
+.cal-grid {
+display: grid;
+grid-template-columns: repeat(7, 1fr);
+gap: 3px;
+text-align: center;
+}
+.cal-day-name {
+font-size: 0.65rem;
+color: var(–gold-dim);
+padding: 4px 2px;
+font-weight: 700;
+}
+.cal-day {
+aspect-ratio: 1;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.72rem;
+border-radius: 6px;
+cursor: pointer;
+transition: all 0.2s;
+color: rgba(245,237,216,0.6);
+border: 1px solid transparent;
+}
+.cal-day:hover { background: rgba(201,168,76,0.15); color: var(–gold); }
+.cal-day.today { background: rgba(201,168,76,0.2); color: var(–gold-light); font-weight: 700; }
+.cal-day.selected { background: var(–gold); color: var(–ink); font-weight: 700; box-shadow: 0 0 10px rgba(201,168,76,0.5); }
+.cal-day.has-event { border-color: var(–emerald-light); }
+.cal-day.empty { pointer-events: none; }
+
+/* === RIGHT PANEL === */
+.right-col { display: flex; flex-direction: column; gap: 20px; }
+
+/* === SELECTED OCCASION CARD === */
+.occasion-showcase {
+position: relative;
+border-radius: 20px;
+overflow: hidden;
+min-height: 200px;
+border: 1px solid rgba(201,168,76,0.25);
+box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.occasion-bg {
+position: absolute;
+inset: 0;
+background: linear-gradient(135deg, #1A4B7A, #0D0D1A);
+z-index: 0;
+}
+.occasion-bg-overlay {
+position: absolute;
+inset: 0;
+z-index: 1;
+background: linear-gradient(to left, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+}
+.occasion-content {
+position: relative;
+z-index: 2;
+padding: 28px;
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+.occasion-badge {
+display: inline-flex;
+align-items: center;
+gap: 6px;
+background: rgba(201,168,76,0.2);
+border: 1px solid rgba(201,168,76,0.4);
+border-radius: 20px;
+padding: 4px 14px;
+font-size: 0.72rem;
+color: var(–gold-light);
+width: fit-content;
+}
+.occasion-name {
+font-family: ‘Amiri’, serif;
+font-size: clamp(1.4rem, 3vw, 2rem);
+color: #fff;
+text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+line-height: 1.3;
+}
+.occasion-date-display {
+font-size: 0.85rem;
+color: rgba(240,208,128,0.8);
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.occasion-description {
+font-size: 0.85rem;
+color: rgba(245,237,216,0.7);
+line-height: 1.7;
+max-width: 600px;
+}
+
+/* === UPLOAD ZONE === */
+.media-upload-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 12px;
+}
+.upload-zone {
+border: 2px dashed rgba(201,168,76,0.25);
+border-radius: 14px;
+padding: 20px 10px;
+text-align: center;
+cursor: pointer;
+transition: all 0.3s;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 8px;
+background: rgba(0,0,0,0.2);
+min-height: 110px;
+justify-content: center;
+}
+.upload-zone:hover {
+border-color: var(–gold);
+background: rgba(201,168,76,0.06);
+transform: translateY(-2px);
+box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+.upload-zone.has-file {
+border-color: var(–emerald-light);
+background: rgba(27,107,74,0.1);
+}
+.upload-icon { font-size: 1.8rem; }
+.upload-label { font-size: 0.75rem; color: var(–gold-dim); font-weight: 600; }
+.upload-count {
+font-size: 0.65rem;
+color: var(–emerald-light);
+background: rgba(39,163,105,0.15);
+border-radius: 10px;
+padding: 2px 8px;
+}
+input[type=“file”] { display: none; }
+
+/* === MEDIA GALLERY === */
+.media-gallery {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+gap: 10px;
+}
+.media-thumb {
+aspect-ratio: 4/3;
+border-radius: 10px;
+overflow: hidden;
+border: 1px solid rgba(201,168,76,0.2);
+position: relative;
+cursor: pointer;
+transition: all 0.3s;
+}
+.media-thumb:hover { transform: scale(1.05); border-color: var(–gold); box-shadow: 0 0 15px rgba(201,168,76,0.3); }
+.media-thumb img, .media-thumb video {
+width: 100%; height: 100%;
+object-fit: cover;
+}
+.media-thumb .thumb-overlay {
+position: absolute;
+inset: 0;
+background: rgba(0,0,0,0.5);
+display: flex;
+align-items: center;
+justify-content: center;
+opacity: 0;
+transition: opacity 0.3s;
+}
+.media-thumb:hover .thumb-overlay { opacity: 1; }
+.media-thumb .remove-btn {
+position: absolute;
+top: 4px; left: 4px;
+background: rgba(139,26,46,0.8);
+border: none;
+color: white;
+width: 22px; height: 22px;
+border-radius: 50%;
+font-size: 0.7rem;
+cursor: pointer;
+display: flex; align-items: center; justify-content: center;
+}
+.pdf-thumb {
+background: linear-gradient(135deg, rgba(139,26,46,0.3), rgba(139,26,46,0.1));
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 4px;
+font-size: 0.65rem;
+color: #ff8888;
+padding: 8px;
+}
+
+/* === ACTION BUTTONS === */
+.action-row {
+display: flex;
+gap: 10px;
+flex-wrap: wrap;
+}
+.btn {
+padding: 10px 22px;
+border-radius: 10px;
+border: none;
+font-family: ‘Cairo’, sans-serif;
+font-size: 0.85rem;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.3s;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.btn-gold {
+background: linear-gradient(135deg, var(–gold-dim), var(–gold));
+color: var(–ink);
+box-shadow: 0 4px 15px rgba(201,168,76,0.3);
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(201,168,76,0.45); }
+.btn-emerald {
+background: linear-gradient(135deg, var(–emerald), var(–emerald-light));
+color: #fff;
+box-shadow: 0 4px 15px rgba(27,107,74,0.3);
+}
+.btn-emerald:hover { transform: translateY(-2px); }
+.btn-outline {
+background: transparent;
+border: 1px solid rgba(201,168,76,0.3);
+color: var(–gold-light);
+}
+.btn-outline:hover { background: rgba(201,168,76,0.1); border-color: var(–gold); }
+.btn-crimson {
+background: linear-gradient(135deg, var(–crimson), #c0392b);
+color: #fff;
+}
+
+/* === PRESENTATION MODAL === */
+.modal-overlay {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.9);
+z-index: 1000;
+display: none;
+align-items: center;
+justify-content: center;
+backdrop-filter: blur(10px);
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+background: linear-gradient(135deg, #0D1428, #1A1A2E);
+border: 1px solid rgba(201,168,76,0.3);
+border-radius: 24px;
+width: 95%;
+max-width: 1000px;
+max-height: 90vh;
+overflow-y: auto;
+padding: 40px;
+position: relative;
+box-shadow: 0 0 60px rgba(201,168,76,0.2);
+animation: modal-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes modal-in {
+from { opacity: 0; transform: scale(0.8); }
+to { opacity: 1; transform: scale(1); }
+}
+.modal-close {
+position: absolute;
+top: 16px; left: 16px;
+background: rgba(139,26,46,0.5);
+border: 1px solid rgba(139,26,46,0.5);
+color: white;
+width: 36px; height: 36px;
+border-radius: 50%;
+font-size: 1.1rem;
+cursor: pointer;
+transition: all 0.3s;
+display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: var(–crimson); }
+
+/* PRESENTATION CARD */
+.pres-card {
+background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(27,107,74,0.05));
+border: 1px solid rgba(201,168,76,0.2);
+border-radius: 20px;
+padding: 30px;
+margin-bottom: 24px;
+}
+.pres-top {
+display: flex;
+align-items: center;
+gap: 20px;
+margin-bottom: 20px;
+}
+.pres-emblem {
+width: 80px; height: 80px;
+border-radius: 50%;
+background: linear-gradient(135deg, var(–gold-dim), var(–gold));
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 2.5rem;
+box-shadow: 0 0 30px rgba(201,168,76,0.4);
+flex-shrink: 0;
+}
+.pres-title-block h2 {
+font-family: ‘Amiri’, serif;
+font-size: 1.8rem;
+color: var(–gold);
+margin-bottom: 4px;
+}
+.pres-title-block p { font-size: 0.85rem; color: rgba(245,237,216,0.6); }
+.pres-divider {
+height: 1px;
+background: linear-gradient(to right, var(–gold), transparent);
+margin: 16px 0;
+}
+.pres-info-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+gap: 12px;
+margin-bottom: 20px;
+}
+.pres-info-item {
+background: rgba(0,0,0,0.2);
+border-radius: 10px;
+padding: 12px;
+border: 1px solid rgba(201,168,76,0.1);
+text-align: center;
+}
+.pres-info-label { font-size: 0.65rem; color: var(–gold-dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.pres-info-value { font-size: 0.9rem; color: var(–gold-light); font-weight: 700; }
+.pres-desc-text { font-size: 0.9rem; color: rgba(245,237,216,0.8); line-height: 1.8; }
+
+.pres-media-section h3 {
+font-size: 1rem;
+color: var(–gold);
+margin-bottom: 14px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.pres-gallery {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+gap: 10px;
+margin-bottom: 20px;
+}
+.pres-gallery-item {
+aspect-ratio: 4/3;
+border-radius: 10px;
+overflow: hidden;
+border: 1px solid rgba(201,168,76,0.2);
+cursor: pointer;
+transition: all 0.3s;
+}
+.pres-gallery-item:hover { transform: scale(1.05); border-color: var(–gold); }
+.pres-gallery-item img, .pres-gallery-item video {
+width: 100%; height: 100%; object-fit: cover;
+}
+.pres-pdf-list { display: flex; flex-direction: column; gap: 8px; }
+.pres-pdf-item {
+display: flex;
+align-items: center;
+gap: 12px;
+background: rgba(139,26,46,0.1);
+border: 1px solid rgba(139,26,46,0.3);
+border-radius: 10px;
+padding: 10px 14px;
+cursor: pointer;
+transition: all 0.3s;
+text-decoration: none;
+color: #ff9999;
+}
+.pres-pdf-item:hover { background: rgba(139,26,46,0.2); border-color: #ff6666; }
+
+/* === EVENTS LIST === */
+.events-list { display: flex; flex-direction: column; gap: 10px; }
+.event-item {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 12px 14px;
+background: rgba(0,0,0,0.2);
+border: 1px solid rgba(201,168,76,0.12);
+border-radius: 12px;
+cursor: pointer;
+transition: all 0.3s;
+text-align: right;
+}
+.event-item:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.06); }
+.event-dot {
+width: 10px; height: 10px;
+border-radius: 50%;
+flex-shrink: 0;
+}
+.event-name { font-size: 0.85rem; color: var(–cream); flex: 1; }
+.event-date-badge {
+font-size: 0.7rem;
+padding: 2px 8px;
+border-radius: 10px;
+background: rgba(201,168,76,0.1);
+color: var(–gold-dim);
+white-space: nowrap;
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+::-webkit-scrollbar-thumb { background: var(–gold-dim); border-radius: 3px; }
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+.main-grid { grid-template-columns: 1fr; }
+.media-upload-grid { grid-template-columns: repeat(3, 1fr); }
+.pres-top { flex-direction: column; text-align: center; }
+}
+@media (max-width: 600px) {
+.media-upload-grid { grid-template-columns: repeat(3, 1fr); }
+.modal-box { padding: 20px; }
+}
+
+/* Print */
+@media print {
+.starfield, .left-col, .action-row, .modal-close { display: none !important; }
+.main-grid { grid-template-columns: 1fr; }
+}
+
+.empty-state {
+text-align: center;
+padding: 30px;
+color: rgba(245,237,216,0.3);
+font-size: 0.85rem;
+}
+.empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 8px; }
+
+.toast {
+position: fixed;
+bottom: 30px;
+left: 50%;
+transform: translateX(-50%) translateY(80px);
+background: linear-gradient(135deg, var(–emerald), var(–emerald-light));
+color: white;
+padding: 12px 24px;
+border-radius: 50px;
+font-size: 0.85rem;
+font-weight: 700;
+z-index: 9999;
+transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+.section-sep {
+height: 1px;
+background: linear-gradient(to right, transparent, rgba(201,168,76,0.2), transparent);
+margin: 16px 0;
+}
+</style>
+
+</head>
+<body>
+
+<div class="starfield"></div>
+
+<div class="app-wrapper">
+
+  <!-- HEADER -->
+
+  <div class="royal-header">
+    <div class="header-ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <div class="school-badge">
+      <span class="badge-icon">🏫</span>
+      <div class="school-title">الثانوية الأولى بجازان — وزارة التعليم</div>
+      <span class="badge-icon">📡</span>
+    </div>
+    <div class="main-title">روزنامة الإذاعة والأنشطة المدرسية</div>
+    <div class="sub-title">المناسبات الوطنية · العالمية · التربوية</div>
+  </div>
+
+  <!-- LIVE DATE STRIP -->
+
+  <div class="live-date-strip">
+    <div class="live-dot"></div>
+    <span class="live-text">مباشر</span>
+    <span class="live-datetime" id="liveTime">—</span>
+    <span>|</span>
+    <span class="live-hijri" id="liveHijri">—</span>
+  </div>
+
+  <!-- MAIN GRID -->
+
+  <div class="main-grid">
+
+```
+<!-- LEFT: CONTROLS -->
+<div class="left-col" style="display:flex;flex-direction:column;gap:20px;">
+
+  <!-- DATE SELECTOR PANEL -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-icon">📅</span>
+      <span class="panel-title">اختر التاريخ</span>
+    </div>
+    <div class="panel-body">
+      <div class="date-selector-grid">
+        <div class="form-group">
+          <label class="form-label">اليوم</label>
+          <select class="form-control" id="selDay"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">الشهر</label>
+          <select class="form-control" id="selMonth">
+            <option value="0">يناير</option><option value="1">فبراير</option><option value="2">مارس</option>
+            <option value="3">أبريل</option><option value="4">مايو</option><option value="5">يونيو</option>
+            <option value="6">يوليو</option><option value="7">أغسطس</option><option value="8">سبتمبر</option>
+            <option value="9">أكتوبر</option><option value="10">نوفمبر</option><option value="11">ديسمبر</option>
+          </select>
+        </div>
+        <div class="form-group year-field">
+          <label class="form-label">السنة الميلادية</label>
+          <select class="form-control" id="selYear"></select>
+        </div>
+      </div>
+
+      <!-- MINI CALENDAR -->
+      <div class="mini-cal-header">
+        <button class="cal-nav-btn" onclick="changeCalMonth(-1)">‹</button>
+        <span class="cal-month-label" id="calMonthLabel"></span>
+        <button class="cal-nav-btn" onclick="changeCalMonth(1)">›</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+  </div>
+
+  <!-- OCCASIONS PANEL -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-icon">🌍</span>
+      <span class="panel-title">المناسبات</span>
+    </div>
+    <div class="panel-body">
+      <div class="cat-tabs">
+        <button class="cat-tab active" onclick="filterCat('all',this)">الكل</button>
+        <button class="cat-tab" onclick="filterCat('national',this)">🇸🇦 وطنية</button>
+        <button class="cat-tab" onclick="filterCat('world',this)">🌍 عالمية</button>
+        <button class="cat-tab" onclick="filterCat('school',this)">🏫 تربوية</button>
+        <button class="cat-tab" onclick="filterCat('religious',this)">☪️ دينية</button>
+      </div>
+      <div class="occasion-select-wrapper">
+        <select class="form-control" id="occasionSelect" style="padding-left:30px;" onchange="selectOccasion(this.value)">
+          <option value="">— اختر مناسبة —</option>
+        </select>
+      </div>
+      <div class="section-sep"></div>
+      <div style="font-size:0.72rem;color:var(--gold-dim);margin-bottom:8px;font-weight:700;">📌 أحداث مخزنة</div>
+      <div class="events-list" id="savedEventsList">
+        <div class="empty-state">
+          <div class="empty-icon">📭</div>
+          <div>لا توجد أحداث محفوظة بعد</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- END LEFT -->
+
+<!-- RIGHT: CONTENT -->
+<div class="right-col">
+
+  <!-- OCCASION SHOWCASE -->
+  <div class="occasion-showcase" id="occasionShowcase">
+    <div class="occasion-bg" id="occasionBg"></div>
+    <div class="occasion-bg-overlay"></div>
+    <div class="occasion-content">
+      <div class="occasion-badge" id="occasionBadge">
+        <span>🗓️</span>
+        <span>اختر مناسبة من القائمة</span>
+      </div>
+      <div class="occasion-name" id="occasionName">روزنامة الإذاعة المدرسية</div>
+      <div class="occasion-date-display" id="occasionDateDisplay">
+        <span>📅</span>
+        <span id="selectedDateLabel">—</span>
+      </div>
+      <div class="occasion-description" id="occasionDesc">
+        اختر مناسبة من القائمة المنسدلة لعرض تفاصيلها وإضافة الوسائط والتقارير المرتبطة بها.
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDIA UPLOAD PANEL -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-icon">📤</span>
+      <span class="panel-title">رفع الوسائط والتقارير</span>
+    </div>
+    <div class="panel-body">
+      <div class="media-upload-grid">
+        <label class="upload-zone" id="imgZone" for="imgInput">
+          <span class="upload-icon">🖼️</span>
+          <span class="upload-label">صور</span>
+          <span class="upload-count" id="imgCount" style="display:none"></span>
+        </label>
+        <input type="file" id="imgInput" multiple accept="image/*" onchange="handleFiles(this,'img')">
+
+        <label class="upload-zone" id="vidZone" for="vidInput">
+          <span class="upload-icon">🎥</span>
+          <span class="upload-label">فيديو</span>
+          <span class="upload-count" id="vidCount" style="display:none"></span>
+        </label>
+        <input type="file" id="vidInput" multiple accept="video/*" onchange="handleFiles(this,'vid')">
+
+        <label class="upload-zone" id="pdfZone" for="pdfInput">
+          <span class="upload-icon">📄</span>
+          <span class="upload-label">PDF تقرير</span>
+          <span class="upload-count" id="pdfCount" style="display:none"></span>
+        </label>
+        <input type="file" id="pdfInput" multiple accept="application/pdf" onchange="handleFiles(this,'pdf')">
+      </div>
+
+      <!-- GALLERY -->
+      <div id="mediaGallery" style="margin-top:14px;"></div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="action-row" style="margin-top:16px;">
+        <button class="btn btn-gold" onclick="saveOccasionData()">💾 حفظ المناسبة</button>
+        <button class="btn btn-emerald" onclick="openPresentation()">🎬 عرض للمديرة</button>
+        <button class="btn btn-outline" onclick="clearMedia()">🗑️ مسح الوسائط</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- END RIGHT -->
+```
+
+  </div><!-- END MAIN GRID -->
+</div><!-- END APP WRAPPER -->
+
+<!-- PRESENTATION MODAL -->
+
+<div class="modal-overlay" id="presModal">
+  <div class="modal-box" id="presContent">
+    <button class="modal-close" onclick="closePresentation()">✕</button>
+    <div id="presInner"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+
+<div class="toast" id="toast">✅ تم الحفظ بنجاح</div>
+
+<script>
+// ============================================================
+// DATA: OCCASIONS
+// ============================================================
+const allOccasions = [
+  // NATIONAL
+  { id:'n1', cat:'national', emoji:'🇸🇦', name:'اليوم الوطني السعودي', date:'9-23', desc:'يُحتفل باليوم الوطني للمملكة العربية السعودية في الثالث والعشرين من سبتمبر من كل عام، إحياءً لذكرى توحيد المملكة عام 1932م على يد المؤسس الملك عبدالعزيز آل سعود.', color:'linear-gradient(135deg, #006400, #1a5276)', month:8, day:23 },
+  { id:'n2', cat:'national', emoji:'🫡', name:'يوم التأسيس', date:'2-22', desc:'يُحتفل بيوم التأسيس في الثاني والعشرين من فبراير إحياءً لذكرى تأسيس الدولة السعودية الأولى عام 1727م على يد الإمام محمد بن سعود.', color:'linear-gradient(135deg, #1a3a6e, #2e5090)', month:1, day:22 },
+  { id:'n3', cat:'national', emoji:'🤝', name:'يوم الخليج العربي', date:'12-25', desc:'يوم الخليج العربي هو مناسبة سنوية تحتفل بها دول مجلس التعاون الخليجي تخليدًا للوحدة والتضامن الخليجي.', color:'linear-gradient(135deg, #1a4b7a, #2e86c1)', month:11, day:25 },
+  // WORLD
+  { id:'w1', cat:'world', emoji:'🌍', name:'يوم الأرض العالمي', date:'4-22', desc:'يُقام يوم الأرض العالمي في 22 أبريل من كل عام للتوعية بأهمية حماية البيئة والموارد الطبيعية، وتعزيز التواصل بين المجتمعات العالمية لمواجهة التغير المناخي.', color:'linear-gradient(135deg, #1a5e20, #2ecc71)', month:3, day:22 },
+  { id:'w2', cat:'world', emoji:'📚', name:'اليوم العالمي للكتاب', date:'4-23', desc:'يصادف في 23 أبريل من كل عام، ويحتفي اليونسكو بهذا اليوم لتشجيع القراءة والنشر وحماية الملكية الفكرية.', color:'linear-gradient(135deg, #5d4037, #a0522d)', month:3, day:23 },
+  { id:'w3', cat:'world', emoji:'👩‍🏫', name:'يوم المعلم العالمي', date:'10-5', desc:'يُحتفل به في 5 أكتوبر سنويًا للاعتراف بجهود المعلمين ودورهم الأساسي في التنمية البشرية والتعليم.', color:'linear-gradient(135deg, #7b2d8b, #9b59b6)', month:9, day:5 },
+  { id:'w4', cat:'world', emoji:'♀️', name:'يوم المرأة العالمي', date:'3-8', desc:'يُحتفل بيوم المرأة العالمي في 8 مارس من كل عام تقديرًا لإنجازات المرأة وتعزيزًا للمساواة بين الجنسين.', color:'linear-gradient(135deg, #8b1a4a, #c0392b)', month:2, day:8 },
+  { id:'w5', cat:'world', emoji:'❤️', name:'اليوم العالمي للقلب', date:'9-29', desc:'يُحتفل به في 29 سبتمبر لنشر الوعي بأمراض القلب والوقاية منها على المستوى العالمي.', color:'linear-gradient(135deg, #8b1a1a, #e74c3c)', month:8, day:29 },
+  { id:'w6', cat:'world', emoji:'🧠', name:'اليوم العالمي للصحة النفسية', date:'10-10', desc:'يُحتفل به في 10 أكتوبر لتعزيز الوعي بقضايا الصحة النفسية والحد من الوصمة الاجتماعية المرتبطة بها.', color:'linear-gradient(135deg, #1a3a5e, #2980b9)', month:9, day:10 },
+  { id:'w7', cat:'world', emoji:'🌐', name:'يوم العلم العالمي', date:'11-10', desc:'يُحتفل به في 10 نوفمبر تحت إشراف اليونسكو، للتأكيد على دور العلم في بناء السلام والتنمية المستدامة.', color:'linear-gradient(135deg, #1a4b3a, #27ae60)', month:10, day:10 },
+  // SCHOOL
+  { id:'s1', cat:'school', emoji:'🏫', name:'بداية العام الدراسي', date:'', desc:'بداية العام الدراسي الجديد وانطلاق رحلة التعلم والمعرفة، لحظة مميزة نستقبل فيها طالباتنا بحفاوة وترحيب.', color:'linear-gradient(135deg, #1a3a6e, #2980b9)' },
+  { id:'s2', cat:'school', emoji:'📊', name:'يوم التقييم المدرسي', date:'', desc:'يوم للوقوف على مستوى التحصيل الدراسي وتقديم التغذية الراجعة للطالبات وأولياء أمورهن.', color:'linear-gradient(135deg, #4a235a, #7d3c98)' },
+  { id:'s3', cat:'school', emoji:'🏆', name:'حفل التكريم والتميز', date:'', desc:'مناسبة للاحتفاء بالمتفوقات وتكريم الطالبات المتميزات في التحصيل العلمي والنشاط المدرسي.', color:'linear-gradient(135deg, #7a5c1a, #c9a84c)' },
+  { id:'s4', cat:'school', emoji:'🎨', name:'أسبوع المهارات والهوايات', date:'', desc:'فعالية تعليمية ثرية تستعرض فيها الطالبات مواهبهن وهوياتهن في مختلف المجالات الإبداعية.', color:'linear-gradient(135deg, #1a5e4a, #1abc9c)' },
+  // RELIGIOUS
+  { id:'r1', cat:'religious', emoji:'☪️', name:'المولد النبوي الشريف', date:'', desc:'الاحتفاء بذكرى مولد النبي محمد صلى الله عليه وسلم وإحياء سيرته العطرة وقيمه الإنسانية النبيلة.', color:'linear-gradient(135deg, #1a3a1a, #27ae60)' },
+  { id:'r2', cat:'religious', emoji:'🌙', name:'رمضان الكريم', date:'', desc:'استقبال شهر رمضان المبارك بالأنشطة التوعوية والبرامج الإذاعية التي تعزز القيم الإسلامية الأصيلة.', color:'linear-gradient(135deg, #1a2a4e, #2c3e7a)' },
+  { id:'r3', cat:'religious', emoji:'🕌', name:'عيد الفطر المبارك', date:'', desc:'الاحتفاء بحلول عيد الفطر المبارك وتهنئة الطالبات والمعلمات بهذه المناسبة السعيدة.', color:'linear-gradient(135deg, #3a1a1a, #c0392b)' },
+  { id:'r4', cat:'religious', emoji:'🐑', name:'عيد الأضحى المبارك', date:'', desc:'إحياء ذكرى عيد الأضحى المبارك وما يحمله من معاني التضحية والفداء والإيمان.', color:'linear-gradient(135deg, #3a2a1a, #e67e22)' },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let currentCat = 'all';
+let selectedOccasion = null;
+let mediaStore = { img: [], vid: [], pdf: [] };
+let savedEvents = JSON.parse(localStorage.getItem('schoolCalEvents') || '{}');
+let calDate = new Date();
+let selectedDate = new Date();
+
+// ============================================================
+// INIT
+// ============================================================
+window.onload = () => {
+  initDateSelectors();
+  populateOccasions();
+  renderCalendar();
+  updateLiveClock();
+  setInterval(updateLiveClock, 1000);
+  renderSavedEventsList();
+  updateSelectedDateLabel();
+};
+
+// ============================================================
+// LIVE CLOCK
+// ============================================================
+function updateLiveClock() {
+  const now = new Date();
+  const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  const time = now.toLocaleTimeString('ar-SA', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  document.getElementById('liveTime').textContent = `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()} — ${time}`;
+
+  const hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', { year:'numeric', month:'long', day:'numeric' }).format(now);
+  document.getElementById('liveHijri').textContent = hijri;
+}
+
+// ============================================================
+// DATE SELECTORS
+// ============================================================
+function initDateSelectors() {
+  const now = new Date();
+  const dayEl = document.getElementById('selDay');
+  for (let d = 1; d <= 31; d++) {
+    dayEl.innerHTML += `<option value="${d}" ${d === now.getDate() ? 'selected' : ''}>${d}</option>`;
+  }
+  const yearEl = document.getElementById('selYear');
+  for (let y = 2020; y <= 2035; y++) {
+    yearEl.innerHTML += `<option value="${y}" ${y === now.getFullYear() ? 'selected' : ''}>${y}</option>`;
+  }
+  document.getElementById('selMonth').value = now.getMonth();
+  document.getElementById('selDay').addEventListener('change', onDateChange);
+  document.getElementById('selMonth').addEventListener('change', onDateChange);
+  document.getElementById('selYear').addEventListener('change', onDateChange);
+}
+
+function onDateChange() {
+  const d = parseInt(document.getElementById('selDay').value);
+  const m = parseInt(document.getElementById('selMonth').value);
+  const y = parseInt(document.getElementById('selYear').value);
+  selectedDate = new Date(y, m, d);
+  calDate = new Date(y, m, 1);
+  renderCalendar();
+  updateSelectedDateLabel();
+  // Auto-suggest occasion for this date
+  autoSuggestOccasion(m, d);
+}
+
+function updateSelectedDateLabel() {
+  const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  document.getElementById('selectedDateLabel').textContent =
+    `${days[selectedDate.getDay()]} ${selectedDate.getDate()} ${months[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`;
+}
+
+function autoSuggestOccasion(month, day) {
+  const match = allOccasions.find(o => o.month === month && o.day === day);
+  if (match) {
+    selectOccasion(match.id);
+    document.getElementById('occasionSelect').value = match.id;
+    showToast(`🎉 تم اكتشاف مناسبة: ${match.name}`);
+  }
+}
+
+// ============================================================
+// MINI CALENDAR
+// ============================================================
+function changeCalMonth(dir) {
+  calDate.setMonth(calDate.getMonth() + dir);
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  document.getElementById('calMonthLabel').textContent = `${months[calDate.getMonth()]} ${calDate.getFullYear()}`;
+
+  const grid = document.getElementById('calGrid');
+  const days = ['أح','اث','ثل','أر','خم','جم','سب'];
+  let html = days.map(d => `<div class="cal-day-name">${d}</div>`).join('');
+
+  const first = new Date(calDate.getFullYear(), calDate.getMonth(), 1).getDay();
+  for (let i = 0; i < first; i++) html += `<div class="cal-day empty"></div>`;
+
+  const total = new Date(calDate.getFullYear(), calDate.getMonth()+1, 0).getDate();
+  const today = new Date();
+  const evDates = Object.keys(savedEvents).map(k => k.split('|')[0]);
+
+  for (let d = 1; d <= total; d++) {
+    const isToday = d === today.getDate() && calDate.getMonth() === today.getMonth() && calDate.getFullYear() === today.getFullYear();
+    const isSel = d === selectedDate.getDate() && calDate.getMonth() === selectedDate.getMonth() && calDate.getFullYear() === selectedDate.getFullYear();
+    const dateKey = `${calDate.getFullYear()}-${calDate.getMonth()}-${d}`;
+    const hasEv = evDates.includes(dateKey);
+    html += `<div class="cal-day ${isToday?'today':''} ${isSel?'selected':''} ${hasEv?'has-event':''}" onclick="selectCalDay(${d})">${d}</div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function selectCalDay(d) {
+  const m = calDate.getMonth();
+  const y = calDate.getFullYear();
+  selectedDate = new Date(y, m, d);
+  document.getElementById('selDay').value = d;
+  document.getElementById('selMonth').value = m;
+  document.getElementById('selYear').value = y;
+  renderCalendar();
+  updateSelectedDateLabel();
+  autoSuggestOccasion(m, d);
+  // load saved data for this date
+  loadDateData();
+}
+
+// ============================================================
+// OCCASIONS
+// ============================================================
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  populateOccasions();
+}
+
+function populateOccasions() {
+  const sel = document.getElementById('occasionSelect');
+  const filtered = currentCat === 'all' ? allOccasions : allOccasions.filter(o => o.cat === currentCat);
+  sel.innerHTML = '<option value="">— اختر مناسبة —</option>';
+  filtered.forEach(o => {
+    sel.innerHTML += `<option value="${o.id}">${o.emoji} ${o.name}</option>`;
+  });
+}
+
+function selectOccasion(id) {
+  if (!id) return;
+  const occ = allOccasions.find(o => o.id === id);
+  if (!occ) return;
+  selectedOccasion = occ;
+
+  document.getElementById('occasionBg').style.background = occ.color;
+  document.getElementById('occasionBadge').innerHTML = `<span>${occ.emoji}</span><span>${getCatLabel(occ.cat)}</span>`;
+  document.getElementById('occasionName').textContent = occ.name;
+  document.getElementById('occasionDesc').textContent = occ.desc;
+
+  // Load media for this occasion+date
+  loadDateData();
+}
+
+function getCatLabel(cat) {
+  return { national:'مناسبة وطنية', world:'مناسبة عالمية', school:'مناسبة تربوية', religious:'مناسبة دينية' }[cat] || cat;
+}
+
+// ============================================================
+// FILE UPLOADS
+// ============================================================
+function handleFiles(input, type) {
+  const files = Array.from(input.files);
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      mediaStore[type].push({ name: file.name, data: e.target.result, type: file.type });
+      updateUploadUI();
+      renderGallery();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function updateUploadUI() {
+  ['img','vid','pdf'].forEach(t => {
+    const count = mediaStore[t].length;
+    const el = document.getElementById(t+'Count');
+    const zone = document.getElementById(t+'Zone');
+    if (count > 0) {
+      el.style.display = 'inline';
+      el.textContent = `${count} ملف`;
+      zone.classList.add('has-file');
+    } else {
+      el.style.display = 'none';
+      zone.classList.remove('has-file');
+    }
+  });
+}
+
+function renderGallery() {
+  const g = document.getElementById('mediaGallery');
+  if (!mediaStore.img.length && !mediaStore.vid.length && !mediaStore.pdf.length) {
+    g.innerHTML = '';
+    return;
+  }
+  let html = '<div class="media-gallery">';
+  mediaStore.img.forEach((f, i) => {
+    html += `<div class="media-thumb">
+      <img src="${f.data}" alt="${f.name}">
+      <div class="thumb-overlay">🔍</div>
+      <button class="remove-btn" onclick="removeMedia('img',${i})">✕</button>
+    </div>`;
+  });
+  mediaStore.vid.forEach((f, i) => {
+    html += `<div class="media-thumb">
+      <video src="${f.data}"></video>
+      <div class="thumb-overlay">▶️</div>
+      <button class="remove-btn" onclick="removeMedia('vid',${i})">✕</button>
+    </div>`;
+  });
+  mediaStore.pdf.forEach((f, i) => {
+    html += `<div class="media-thumb pdf-thumb">
+      <div style="font-size:1.6rem">📄</div>
+      <div style="font-size:0.6rem;word-break:break-all;max-width:100px;">${f.name}</div>
+      <button class="remove-btn" onclick="removeMedia('pdf',${i})">✕</button>
+    </div>`;
+  });
+  html += '</div>';
+  g.innerHTML = html;
+}
+
+function removeMedia(type, idx) {
+  mediaStore[type].splice(idx, 1);
+  updateUploadUI();
+  renderGallery();
+}
+
+function clearMedia() {
+  mediaStore = { img: [], vid: [], pdf: [] };
+  updateUploadUI();
+  renderGallery();
+}
+
+// ============================================================
+// SAVE / LOAD
+// ============================================================
+function getEventKey() {
+  const d = selectedDate;
+  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}|${selectedOccasion ? selectedOccasion.id : 'custom'}`;
+}
+
+function saveOccasionData() {
+  if (!selectedOccasion) { showToast('⚠️ اختر مناسبة أولاً'); return; }
+  const key = getEventKey();
+  savedEvents[key] = {
+    occasionId: selectedOccasion.id,
+    date: selectedDate.toISOString(),
+    media: JSON.parse(JSON.stringify(mediaStore))
+  };
+  localStorage.setItem('schoolCalEvents', JSON.stringify(savedEvents));
+  renderSavedEventsList();
+  renderCalendar();
+  showToast('✅ تم حفظ المناسبة بنجاح');
+}
+
+function loadDateData() {
+  if (!selectedOccasion) return;
+  const key = getEventKey();
+  if (savedEvents[key]) {
+    mediaStore = JSON.parse(JSON.stringify(savedEvents[key].media));
+    updateUploadUI();
+    renderGallery();
+  } else {
+    clearMedia();
+  }
+}
+
+function renderSavedEventsList() {
+  const list = document.getElementById('savedEventsList');
+  const keys = Object.keys(savedEvents);
+  if (!keys.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div>لا توجد أحداث محفوظة بعد</div></div>';
+    return;
+  }
+  const colors = { national:'#27ae60', world:'#2980b9', school:'#c9a84c', religious:'#7d3c98' };
+  let html = '';
+  keys.forEach(k => {
+    const ev = savedEvents[k];
+    const occ = allOccasions.find(o => o.id === ev.occasionId);
+    if (!occ) return;
+    const dt = new Date(ev.date);
+    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    html += `<div class="event-item" onclick="loadSavedEvent('${k}')">
+      <div class="event-dot" style="background:${colors[occ.cat]||'#888'}"></div>
+      <div class="event-name">${occ.emoji} ${occ.name}</div>
+      <div class="event-date-badge">${dt.getDate()} ${months[dt.getMonth()]}</div>
+    </div>`;
+  });
+  list.innerHTML = html;
+}
+
+function loadSavedEvent(key) {
+  const ev = savedEvents[key];
+  if (!ev) return;
+  const occ = allOccasions.find(o => o.id === ev.occasionId);
+  if (!occ) return;
+  const dt = new Date(ev.date);
+  selectedDate = dt;
+  calDate = new Date(dt.getFullYear(), dt.getMonth(), 1);
+  document.getElementById('selDay').value = dt.getDate();
+  document.getElementById('selMonth').value = dt.getMonth();
+  document.getElementById('selYear').value = dt.getFullYear();
+  updateSelectedDateLabel();
+  renderCalendar();
+  selectOccasion(occ.id);
+  document.getElementById('occasionSelect').value = occ.id;
+}
+
+// ============================================================
+// PRESENTATION
+// ============================================================
+function openPresentation() {
+  if (!selectedOccasion) { showToast('⚠️ اختر مناسبة أولاً'); return; }
+
+  const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  const occ = selectedOccasion;
+  const dateStr = `${days[selectedDate.getDay()]} ${selectedDate.getDate()} ${months[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`;
+  const hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', { year:'numeric', month:'long', day:'numeric' }).format(selectedDate);
+
+  let imgsHtml = mediaStore.img.map(f =>
+    `<div class="pres-gallery-item"><img src="${f.data}" alt="${f.name}"></div>`).join('');
+  let vidsHtml = mediaStore.vid.map(f =>
+    `<div class="pres-gallery-item"><video src="${f.data}" controls></video></div>`).join('');
+  let pdfsHtml = mediaStore.pdf.map(f =>
+    `<a class="pres-pdf-item" href="${f.data}" download="${f.name}">📄 <span>${f.name}</span> <span style="font-size:0.65rem;opacity:0.6">تحميل</span></a>`).join('');
+
+  const inner = document.getElementById('presInner');
+  inner.innerHTML = `
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="font-size:0.7rem;color:var(--gold-dim);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;">وزارة التعليم — الثانوية الأولى بجازان</div>
+      <div style="font-family:'Amiri',serif;font-size:1.6rem;color:var(--gold);text-shadow:0 0 20px rgba(201,168,76,0.3);">عرض المناسبة</div>
+    </div>
+
+    <div class="pres-card" style="background:${occ.color};border:1px solid rgba(255,255,255,0.15);">
+      <div class="pres-top">
+        <div class="pres-emblem">${occ.emoji}</div>
+        <div class="pres-title-block">
+          <h2>${occ.name}</h2>
+          <p>${getCatLabel(occ.cat)}</p>
+        </div>
+      </div>
+      <div class="pres-divider"></div>
+      <div class="pres-info-grid">
+        <div class="pres-info-item">
+          <div class="pres-info-label">التاريخ الميلادي</div>
+          <div class="pres-info-value">${dateStr}</div>
+        </div>
+        <div class="pres-info-item">
+          <div class="pres-info-label">التاريخ الهجري</div>
+          <div class="pres-info-value">${hijri}</div>
+        </div>
+        <div class="pres-info-item">
+          <div class="pres-info-label">التصنيف</div>
+          <div class="pres-info-value">${getCatLabel(occ.cat)}</div>
+        </div>
+        <div class="pres-info-item">
+          <div class="pres-info-label">وسائط مرفقة</div>
+          <div class="pres-info-value">${mediaStore.img.length + mediaStore.vid.length + mediaStore.pdf.length} ملف</div>
+        </div>
+      </div>
+      <div class="pres-desc-text">${occ.desc}</div>
+    </div>
+
+    ${imgsHtml || vidsHtml ? `
+    <div class="pres-media-section">
+      <h3>🖼️ الصور والفيديوهات المرفقة</h3>
+      <div class="pres-gallery">${imgsHtml}${vidsHtml}</div>
+    </div>` : ''}
+
+    ${pdfsHtml ? `
+    <div class="pres-media-section">
+      <h3>📄 التقارير والوثائق</h3>
+      <div class="pres-pdf-list">${pdfsHtml}</div>
+    </div>` : ''}
+
+    <div style="text-align:center;margin-top:28px;padding-top:20px;border-top:1px solid rgba(201,168,76,0.15);">
+      <button class="btn btn-gold" onclick="window.print()" style="margin:0 auto;">🖨️ طباعة العرض</button>
+    </div>
+  `;
+
+  document.getElementById('presModal').classList.add('open');
+}
+
+function closePresentation() {
+  document.getElementById('presModal').classList.remove('open');
+}
+
+// Close on overlay click
+document.getElementById('presModal').addEventListener('click', function(e) {
+  if (e.target === this) closePresentation();
+});
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+
+</body>
+</html>
